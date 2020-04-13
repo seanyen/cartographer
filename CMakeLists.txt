@@ -43,6 +43,7 @@ endif()
 #include(FindPkgConfig)
 #PKG_SEARCH_MODULE(CAIRO REQUIRED cairo>=1.12.16)
 find_library(CAIRO_LIBRARY cairo)
+set(CAIRO_LIBRARIES ${CAIRO_LIBRARY})
 
 # Only build the documentation if we can find Sphinx.
 find_package(Sphinx)
@@ -213,22 +214,21 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LUA_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   "${Boost_INCLUDE_DIRS}")
-target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::iostreams Boost::dynamic_linking)
 
 # We expect find_package(Ceres) to have located these for us.
 #target_link_libraries(${PROJECT_NAME} PUBLIC glog)
 #target_link_libraries(${PROJECT_NAME} PUBLIC gflags)
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CAIRO_LIBRARY})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   "${CAIRO_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CAIRO_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
-  ${PROTOBUF_INCLUDE_DIR})
+  ${Protobuf_INCLUDE_DIRS})
 # TODO(hrapp): This should not explicitly list pthread and use
 # PROTOBUF_LIBRARIES, but that failed on first try.
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${Protobuf_LIBRARIES})
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
   target_link_libraries(${PROJECT_NAME} PUBLIC async_grpc)
