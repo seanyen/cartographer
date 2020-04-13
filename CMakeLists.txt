@@ -214,8 +214,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LUA_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   "${Boost_INCLUDE_DIRS}")
-target_link_libraries(${PROJECT_NAME} PUBLIC Boost::iostreams Boost::dynamic_linking)
-target_link_directories(${PROJECT_NAME} PUBLIC "${Boost_LIBRARY_DIRS}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
 
 # We expect find_package(Ceres) to have located these for us.
 #target_link_libraries(${PROJECT_NAME} PUBLIC glog)
@@ -226,10 +225,10 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CAIRO_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
-  ${Protobuf_INCLUDE_DIRS})
+  ${PROTOBUF_INCLUDE_DIRS})
 # TODO(hrapp): This should not explicitly list pthread and use
 # PROTOBUF_LIBRARIES, but that failed on first try.
-target_link_libraries(${PROJECT_NAME} PUBLIC ${Protobuf_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARIES})
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
   target_link_libraries(${PROJECT_NAME} PUBLIC async_grpc)
