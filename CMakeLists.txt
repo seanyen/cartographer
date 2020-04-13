@@ -64,7 +64,7 @@ file(GLOB_RECURSE ALL_LIBRARY_HDRS "cartographer/*.h")
 file(GLOB_RECURSE ALL_LIBRARY_SRCS "cartographer/*.cc")
 file(GLOB_RECURSE TEST_LIBRARY_HDRS "cartographer/fake_*.h" "cartographer/*test_helpers*.h" "cartographer/mock_*.h")
 file(GLOB_RECURSE TEST_LIBRARY_SRCS "cartographer/fake_*.cc" "cartographer/*test_helpers*.cc" "cartographer/mock_*.cc")
-#file(GLOB_RECURSE ALL_TESTS "cartographer/*_test.cc")
+file(GLOB_RECURSE ALL_TESTS "cartographer/*_test.cc.dummy")
 file(GLOB_RECURSE ALL_EXECUTABLES "cartographer/*_main.cc")
 
 # Remove dotfiles/-folders that could potentially pollute the build.
