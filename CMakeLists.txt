@@ -215,6 +215,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LUA_LIBRARIES})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   "${Boost_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC Boost::iostreams Boost::dynamic_linking)
+target_link_directories(${PROJECT_NAME} PUBLIC "${Boost_LIBRARY_DIRS}")
 
 # We expect find_package(Ceres) to have located these for us.
 #target_link_libraries(${PROJECT_NAME} PUBLIC glog)
