@@ -40,8 +40,9 @@ if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
 endif()
 
-include(FindPkgConfig)
-PKG_SEARCH_MODULE(CAIRO REQUIRED cairo>=1.12.16)
+#include(FindPkgConfig)
+#PKG_SEARCH_MODULE(CAIRO REQUIRED cairo>=1.12.16)
+find_library(CAIRO_LIBRARY cairo)
 
 # Only build the documentation if we can find Sphinx.
 find_package(Sphinx)
@@ -63,7 +64,7 @@ file(GLOB_RECURSE ALL_LIBRARY_HDRS "cartographer/*.h")
 file(GLOB_RECURSE ALL_LIBRARY_SRCS "cartographer/*.cc")
 file(GLOB_RECURSE TEST_LIBRARY_HDRS "cartographer/fake_*.h" "cartographer/*test_helpers*.h" "cartographer/mock_*.h")
 file(GLOB_RECURSE TEST_LIBRARY_SRCS "cartographer/fake_*.cc" "cartographer/*test_helpers*.cc" "cartographer/mock_*.cc")
-file(GLOB_RECURSE ALL_TESTS "cartographer/*_test.cc")
+#file(GLOB_RECURSE ALL_TESTS "cartographer/*_test.cc")
 file(GLOB_RECURSE ALL_EXECUTABLES "cartographer/*_main.cc")
 
 # Remove dotfiles/-folders that could potentially pollute the build.
@@ -215,8 +216,9 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
 target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
 
 # We expect find_package(Ceres) to have located these for us.
-target_link_libraries(${PROJECT_NAME} PUBLIC glog)
-target_link_libraries(${PROJECT_NAME} PUBLIC gflags)
+#target_link_libraries(${PROJECT_NAME} PUBLIC glog)
+#target_link_libraries(${PROJECT_NAME} PUBLIC gflags)
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CAIRO_LIBRARY})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   "${CAIRO_INCLUDE_DIRS}")
@@ -226,7 +228,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   ${PROTOBUF_INCLUDE_DIR})
 # TODO(hrapp): This should not explicitly list pthread and use
 # PROTOBUF_LIBRARIES, but that failed on first try.
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY} pthread)
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY})
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
   target_link_libraries(${PROJECT_NAME} PUBLIC async_grpc)
