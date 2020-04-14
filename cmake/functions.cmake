@@ -28,7 +28,7 @@ macro(_common_compile_stuff VISIBILITY)
   set_target_properties(${NAME} PROPERTIES
     COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
 
-  target_include_directories(${NAME} PRIVATE ${PROJECT_NAME})
+  target_include_directories(${NAME} PUBLIC ${PROJECT_NAME})
   target_link_libraries(${NAME} PUBLIC ${PROJECT_NAME})
 endmacro(_common_compile_stuff)
 
