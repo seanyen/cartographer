@@ -25,6 +25,37 @@
 #include <boost/iostreams/filter/gzip.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
 
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
+
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef __GNUC__
+    #define CARTOGRAPHER_API_EXPORT __attribute__ ((dllexport))
+    #define CARTOGRAPHER_API_IMPORT __attribute__ ((dllimport))
+  #else
+    #define CARTOGRAPHER_API_EXPORT __declspec(dllexport)
+    #define CARTOGRAPHER_API_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef CARTOGRAPHER_API_BUILDING_DLL
+    #define CARTOGRAPHER_API_PUBLIC CARTOGRAPHER_API_EXPORT
+  #else
+    #define CARTOGRAPHER_API_PUBLIC CARTOGRAPHER_API_IMPORT
+  #endif
+  #define CARTOGRAPHER_API_PUBLIC_TYPE CARTOGRAPHER_API_PUBLIC
+  #define CARTOGRAPHER_API_LOCAL
+#else
+  #define CARTOGRAPHER_API_EXPORT __attribute__ ((visibility("default")))
+  #define CARTOGRAPHER_API_IMPORT
+  #if __GNUC__ >= 4
+    #define CARTOGRAPHER_API_PUBLIC __attribute__ ((visibility("default")))
+    #define CARTOGRAPHER_API_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define CARTOGRAPHER_API_PUBLIC
+    #define CARTOGRAPHER_API_LOCAL
+  #endif
+  #define CARTOGRAPHER_API_PUBLIC_TYPE
+#endif
+
 namespace cartographer {
 
 using int8 = int8_t;
