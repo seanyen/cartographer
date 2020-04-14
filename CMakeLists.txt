@@ -42,6 +42,7 @@ endif()
 
 #include(FindPkgConfig)
 #PKG_SEARCH_MODULE(CAIRO REQUIRED cairo>=1.12.16)
+find_path(CAIRO_INCLUDE_DIRS cairo/cairo.h)
 find_library(CAIRO_LIBRARY cairo)
 set(CAIRO_LIBRARIES ${CAIRO_LIBRARY})
 
