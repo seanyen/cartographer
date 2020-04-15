@@ -253,6 +253,7 @@ target_link_libraries(${TEST_LIB} PUBLIC ${GMOCK_LIBRARY})
 target_link_libraries(${TEST_LIB} PUBLIC ${PROJECT_NAME})
 set_target_properties(${TEST_LIB} PROPERTIES
   COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
+target_compile_definitions(${TEST_LIB} PRIVATE "CARTOGRAPHER_API_PUBLIC=__declspec(dllimport)")
 
 foreach(ABS_FIL ${ALL_TESTS})
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
@@ -269,6 +270,7 @@ foreach(ABS_FIL ${ALL_TESTS})
     target_link_libraries("${TEST_TARGET_NAME}" PUBLIC prometheus-cpp)
   endif()
   target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB})
+  target_compile_definitions("${TEST_TARGET_NAME}" PRIVATE "CARTOGRAPHER_API_PUBLIC=__declspec(dllimport)")
 endforeach()
 
 # Add the binary directory first, so that port.h is included after it has
