@@ -31,10 +31,8 @@ google_enable_testing()
 find_package(Boost REQUIRED COMPONENTS iostreams)
 find_package(Ceres REQUIRED COMPONENTS SuiteSparse)
 find_package(Eigen3 REQUIRED)
-find_package(Lua REQUIRED)
+find_package(LuaGoogle REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
-find_package(glog REQUIRED)
-find_package(gflags REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -154,7 +152,7 @@ if(${BUILD_GRPC})
       OUTPUT "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.cc"
              "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.h"
       COMMAND  ${PROTOBUF_PROTOC_EXECUTABLE}
-      ARGS --cpp_out  ${PROJECT_BINARY_DIR}
+      ARGS --cpp_out dllexport_decl=CARTOGRAPHER_API_PUBLIC:${PROJECT_BINARY_DIR}
         -I ${PROJECT_SOURCE_DIR}
         ${ABS_FIL}
       DEPENDS ${ABS_FIL}
