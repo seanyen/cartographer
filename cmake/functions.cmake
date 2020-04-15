@@ -72,9 +72,7 @@ macro(google_initialize_cartographer_project)
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
   endif()
-  if(WIN32)
-    return()
-  endif()
+  if(NOT WIN32)
   set(GOOG_CXX_FLAGS "-pthread -std=c++11 -fPIC ${GOOG_CXX_FLAGS}")
 
   google_add_flag(GOOG_CXX_FLAGS "-Wall")
@@ -129,6 +127,7 @@ macro(google_initialize_cartographer_project)
     execute_process(COMMAND ${DETECT_CHANGES_CMD})
   endif()
   include(${FILES_LIST_PATH})
+  endif()
 endmacro()
 
 macro(google_enable_testing)
