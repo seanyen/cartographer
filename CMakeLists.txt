@@ -243,6 +243,7 @@ set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 set_target_properties(${PROJECT_NAME} PROPERTIES
   COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
 
+if(NOT WIN32)
 set(TEST_LIB
   cartographer_test_library
 )
@@ -255,7 +256,6 @@ set_target_properties(${TEST_LIB} PROPERTIES
   COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
 target_compile_definitions(${TEST_LIB} PRIVATE "CARTOGRAPHER_API_PUBLIC=__declspec(dllimport)")
 
-set(ALL_TESTS "")
 foreach(ABS_FIL ${ALL_TESTS})
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
   get_filename_component(DIR ${REL_FIL} DIRECTORY)
@@ -273,6 +273,7 @@ foreach(ABS_FIL ${ALL_TESTS})
   target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB})
   target_compile_definitions("${TEST_TARGET_NAME}" PRIVATE "CARTOGRAPHER_API_PUBLIC=__declspec(dllimport)")
 endforeach()
+endif()
 
 # Add the binary directory first, so that port.h is included after it has
 # been generated.
